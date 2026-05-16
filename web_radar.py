@@ -8,37 +8,29 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# ─────────────────────────────────────────────────────────────
-# SAYFA AYARLARI
-# ─────────────────────────────────────────────────────────────
 st.set_page_config(page_title="BIST QUANTUM PRO MAX", page_icon="🛸", layout="wide")
 
 # ─────────────────────────────────────────────────────────────
 # BIST EVRENİ
 # ─────────────────────────────────────────────────────────────
 UNIVERSE = {
-    "AKBNK.IS": "Bankacılık", "GARAN.IS": "Bankacılık",
-    "YKBNK.IS": "Bankacılık", "SAHOL.IS": "Holding",
-    "FROTO.IS": "Otomotiv",   "TOASO.IS": "Otomotiv",
-    "ASELS.IS": "Savunma",    "VESTL.IS": "Elektronik",
-    "TUPRS.IS": "Enerji",     "PETKM.IS": "Petrokimya",
-    "SASA.IS":  "Kimya",      "EREGL.IS": "Demir-Çelik",
-    "KRDMD.IS": "Demir-Çelik","BIMAS.IS": "Perakende",
-    "ULKER.IS": "Gıda",       "KCHOL.IS": "Holding",
-    "DOHOL.IS": "Holding",    "SISE.IS": "Cam",
-    "HEKTS.IS": "Sağlık",     "TCELL.IS": "Telekom",
-    "TTKOM.IS": "Telekom",    "THYAO.IS": "Havacılık",
-    "PGSUS.IS": "Havacılık",  "TAVHL.IS": "Havalimanı",
+    "AKBNK.IS": "Bankacılık","GARAN.IS": "Bankacılık","YKBNK.IS": "Bankacılık",
+    "SAHOL.IS": "Holding","FROTO.IS": "Otomotiv","TOASO.IS": "Otomotiv",
+    "ASELS.IS": "Savunma","VESTL.IS": "Elektronik","TUPRS.IS": "Enerji",
+    "PETKM.IS": "Petrokimya","SASA.IS": "Kimya","EREGL.IS": "Demir-Çelik",
+    "KRDMD.IS": "Demir-Çelik","BIMAS.IS": "Perakende","ULKER.IS": "Gıda",
+    "KCHOL.IS": "Holding","DOHOL.IS": "Holding","SISE.IS": "Cam",
+    "HEKTS.IS": "Sağlık","TCELL.IS": "Telekom","TTKOM.IS": "Telekom",
+    "THYAO.IS": "Havacılık","PGSUS.IS": "Havacılık","TAVHL.IS": "Havalimanı",
 }
 
 # ─────────────────────────────────────────────────────────────
-# TEKNİK GÖSTERGELER
+# İNDİKATÖRLER
 # ─────────────────────────────────────────────────────────────
 def ema(s, span): return s.ewm(span=span, adjust=False).mean()
 def calc_rsi(s, period=14):
-    delta = s.diff()
-    gain, loss = delta.clip(lower=0), (-delta).clip(lower=0)
-    ag, al = gain.ewm(com=period-1, adjust=False).mean(), loss.ewm(com=period-1, adjust=False).mean()
+    delta = s.diff(); gain = delta.clip(lower=0); loss = (-delta).clip(lower=0)
+    ag = gain.ewm(com=period-1, adjust=False).mean(); al = loss.ewm(com=period-1, adjust=False).mean()
     return 100 - (100 / (1 + ag/(al+1e-10)))
 def calc_macd(s, fast=12, slow=26, signal=9):
     fe, se = s.ewm(span=fast, adjust=False).mean(), s.ewm(span=slow, adjust=False).mean()
@@ -56,15 +48,14 @@ def analyze(sym, df):
     close, high, low, volume = df["Close"], df["High"], df["Low"], df["Volume"]
     price = float(close.iloc[-1])
     rsi_v = float(calc_rsi(close).iloc[-1])
-    ml, sl, hist = calc_macd(close)
-    macd_h = float(hist.iloc[-1])
+    ml, sl, hist = calc_macd(close); macd_h = float(hist.iloc[-1])
     bb_up, bb_mid, bb_dn = calc_bollinger(close)
     bb_pos = (price - bb_dn.iloc[-1])/(bb_up.iloc[-1]-bb_dn.iloc[-1]+1e-10)
     score = 0
     if rsi_v < 35: score += 15
     if macd_h > 0: score += 10
     if bb_pos < 0.2: score += 10
-    return {"sym": sym, "price": round(price,2), "score": score, "rsi": round(rsi_v,1), "macd": macd_h, "bb_pos": round(bb_pos*100,1)}
+    return {"sym": sym,"price": round(price,2),"score": score,"rsi": round(rsi_v,1),"macd": macd_h,"bb_pos": round(bb_pos*100,1)}
 
 # ─────────────────────────────────────────────────────────────
 # VERİ ÇEKME
@@ -81,7 +72,10 @@ if st.button("🔴 QUANTUM RADAR SCAN"):
     results = []
     for sym, sector in UNIVERSE.items():
         try:
-            df = pd.DataFrame({"Close": raw["Close"][sym], "High": raw["High"][sym], "Low": raw["Low"][sym], "Volume": raw["Volume"][sym]}).dropna()
+            df = pd.DataFrame({
+                "Close": raw["Close"][sym],"High": raw["High"][sym],
+                "Low": raw["Low"][sym],"Volume": raw["Volume"][sym]
+            }).dropna()
             res = analyze(sym, df)
             if res: res["sector"] = sector; results.append(res)
         except: continue
