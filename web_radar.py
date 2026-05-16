@@ -492,12 +492,12 @@ RED       = "#FF0000"
 YELLOW    = "#FFFF00"
 CYAN      = "#00FFFF"
 # Alpha varyantları (string birleştirme yerine sabit değer)
-GREEN88   = "#00FF0088"
-GREEN66   = "#00FF0066"
-GREEN44   = "#00FF0044"
-RED88     = "#FF000088"
-RED66     = "#FF000066"
-RED44     = "#FF000044"
+GREEN88   = "rgba(0,255,0,0.53)"
+GREEN66   = "rgba(0,255,0,0.4)"
+GREEN44   = "rgba(0,255,0,0.27)"
+RED88     = "rgba(255,0,0,0.53)"
+RED66     = "rgba(255,0,0,0.4)"
+RED44     = "rgba(255,0,0,0.27)"
 
 def plot_layout(fig, height=600):
     fig.update_layout(
@@ -561,11 +561,11 @@ def make_chart(r):
         ), row=1, col=1)
 
     fig.add_trace(go.Scatter(x=close.index, y=bb_up,
-        line=dict(color="#00FF0033", width=1, dash="dot"),
+        line=dict(color="rgba(0,255,0,0.2)", width=1, dash="dot"),
         name="BB", showlegend=False), row=1, col=1)
     fig.add_trace(go.Scatter(x=close.index, y=bb_dn,
-        line=dict(color="#00FF0033", width=1, dash="dot"),
-        fill="tonexty", fillcolor="#00FF000A",
+        line=dict(color="rgba(0,255,0,0.2)", width=1, dash="dot"),
+        fill="tonexty", fillcolor="rgba(0,255,0,0.04)",
         showlegend=False), row=1, col=1)
 
     # Hacim
@@ -582,7 +582,7 @@ def make_chart(r):
         line=dict(color="rgba(255,0,0,0.5)", dash="dot", width=1), row=3, col=1)
     fig.add_shape(type="line", x0=close.index[0], x1=close.index[-1], y0=30, y1=30,
         line=dict(color="rgba(0,255,0,0.5)", dash="dot", width=1), row=3, col=1)
-    fig.add_hrect(y0=30, y1=70, fillcolor="#00FF0006", line_width=0, row=3, col=1)
+    fig.add_hrect(y0=30, y1=70, fillcolor="rgba(0,255,0,0.02)", line_width=0, row=3, col=1)
 
     # Stochastic
     fig.add_trace(go.Scatter(x=close.index, y=sk,
