@@ -42,7 +42,7 @@ st.markdown("""
         border: 2px solid #00FF00 !important;
     }
     </style>
-    """, unsafe_gradient=True)
+    """, unsafe_allow_html=True)
 
 # Başkomutan Komuta Merkezi Başlığı
 st.markdown("<h1 style='text-align: center; font-size: 45px;'>🪖 BAŞKOMUTAN: OSMAN ÖZCAN</h1>", unsafe_allow_html=True)
@@ -153,10 +153,8 @@ if st.button("🔴 BULUT RADARINI ATEŞLE"):
             
     if tarama_sonuclari:
         df = pd.DataFrame(tarama_sonuclari)
-        # Tabloyu ekrana büyükçe basıyoruz
         st.write(df)
         
-        # Hafızaya alma (Yorum ekranı için verileri session_state içine kilitliyoruz)
         st.session_state['radar_verisi'] = tarama_sonuclari
         st.success("🎯 7'Lİ YAPAY ZEKÂ ÖĞRENME MATRİSİ RAPORU TAMAMLADI!")
     else:
@@ -171,17 +169,14 @@ if 'radar_verisi' in st.session_state:
     hisse_listesi = [h["HİSSE"] for h in st.session_state['radar_verisi']]
     secilen_hisse = st.selectbox("Yorumunu Görmek İstediğin Hisseyi Seç Ağabey:", hisse_listesi)
     
-    # Seçilen hissenin siber verilerini bulalım
     hisse_detay = next((item for item in st.session_state['radar_verisi'] if item["HİSSE"] == secilen_hisse), None)
     
     if hisse_detay:
         st.markdown(f"### 📊 {secilen_hisse} HİSSESİ YAPAY ZEKÂ DERİN ANALİZİ")
         
-        # Dinamik siber yorum motoru oluşturuluyor
         yorum_metni = f"**{secilen_hisse}** kodlu zırhlı mühimmatın siber verileri incelendi. "
         yorum_metni += f"Hisse şu an **{hisse_detay['FİYAT (TL)']} TL** seviyesinde kilitli duruyor. "
         
-        # RSI Yorumu
         if hisse_detay['RSI'] > 70:
             yorum_metni += f"RSI indikatörü **{hisse_detay['RSI']}** ile aşırı alım bölgesinde tepe yapmış durumda, kar realizasyonu gelebilir. "
         elif hisse_detay['RSI'] < 40:
@@ -189,7 +184,6 @@ if 'radar_verisi' in st.session_state:
         else:
             yorum_metni += f"RSI indikatörü **{hisse_detay['RSI']}** ile dengeli ve güvenli bölgede yoluna devam ediyor. "
             
-        # MACD ve Hacim Yorumu
         if hisse_detay['MACD'] == "POZİTİF" and hisse_detay['HACİM'] == "GÜÇLÜ":
             yorum_metni += "MACD siber sinyali boğa trendini destekliyor ve arkasındaki hacim desteği oldukça GÜÇLÜ, yani yükseliş sahte değil. "
         elif hisse_detay['MACD'] == "POZİTİF" and hisse_detay['HACİM'] == "ZAYIF":
@@ -197,12 +191,9 @@ if 'radar_verisi' in st.session_state:
         else:
             yorum_metni += "MACD sinyali şu an negatif bölgede nöbet tutuyor, trendin dönmesi için hacimli bir giriş beklenmeli. "
             
-        # Nihai AI Skor Sonucu
         yorum_metni += f"\n\n**🎯 KOZMİK STRATEJİ NOTU:** 7'li yapay zekâ matrisinin bu hisseye verdiği nihai kararlılık skoru **5 üzerinden {hisse_detay['AI SKOR']}** puan. "
         yorum_metni += f"Sistem bu verilere dayanarak pozisyonunu **'{hisse_detay['KARAR REÇETESİ']}'** yönünde güncelledi ağabey."
         
-        # Yorum kutusunu nizamîce ekrana basıyoruz
         st.info(yorum_metni)
 else:
     st.markdown("<p style='color: #FF0000 !important; font-size: 20px;'>⚠️ Önce yukarıdaki 'BULUT RADARINI ATEŞLE' butonuna basarak radarı çalıştırmalısın ağabey, ardından yazılı yorumlar burada açılacak!</p>", unsafe_allow_html=True)
-        
