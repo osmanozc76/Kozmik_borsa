@@ -578,8 +578,10 @@ def make_chart(r):
     fig.add_trace(go.Scatter(x=close.index, y=rsi_s,
         line=dict(color=GREEN, width=1.5),
         name="RSI", showlegend=False), row=3, col=1)
-    fig.add_hline(y=70, line_dash="dot", line_color=RED88,   row=3, col=1)
-    fig.add_hline(y=30, line_dash="dot", line_color=GREEN88, row=3, col=1)
+    fig.add_shape(type="line", x0=close.index[0], x1=close.index[-1], y0=70, y1=70,
+        line=dict(color="rgba(255,0,0,0.5)", dash="dot", width=1), row=3, col=1)
+    fig.add_shape(type="line", x0=close.index[0], x1=close.index[-1], y0=30, y1=30,
+        line=dict(color="rgba(0,255,0,0.5)", dash="dot", width=1), row=3, col=1)
     fig.add_hrect(y0=30, y1=70, fillcolor="#00FF0006", line_width=0, row=3, col=1)
 
     # Stochastic
@@ -589,8 +591,10 @@ def make_chart(r):
     fig.add_trace(go.Scatter(x=close.index, y=sd_line,
         line=dict(color=YELLOW, width=1),
         name="STOCH D", showlegend=False), row=4, col=1)
-    fig.add_hline(y=80, line_dash="dot", line_color=RED66,   row=4, col=1)
-    fig.add_hline(y=20, line_dash="dot", line_color=GREEN66, row=4, col=1)
+    fig.add_shape(type="line", x0=close.index[0], x1=close.index[-1], y0=80, y1=80,
+        line=dict(color="rgba(255,0,0,0.4)", dash="dot", width=1), row=4, col=1)
+    fig.add_shape(type="line", x0=close.index[0], x1=close.index[-1], y0=20, y1=20,
+        line=dict(color="rgba(0,255,0,0.4)", dash="dot", width=1), row=4, col=1)
 
     # MACD
     hist_colors = [GREEN if float(v) >= 0 else RED for v in hist_s]
@@ -684,10 +688,14 @@ def make_bubble(results):
         textfont=dict(size=8, color=GREEN, family="Share Tech Mono"),
         hovertemplate="<b>%{text}</b><br>RSI: %{x:.1f}<br>Skor: %{y:.1f}<extra></extra>"
     ))
-    fig.add_vline(x=70, line_dash="dot", line_color=RED66)
-    fig.add_vline(x=30, line_dash="dot", line_color=GREEN66)
-    fig.add_hline(y=15, line_dash="dot", line_color=GREEN44)
-    fig.add_hline(y=-10,line_dash="dot", line_color=RED44)
+    fig.add_shape(type="line", x0=70, x1=70, y0=-90, y1=90,
+        line=dict(color="rgba(255,0,0,0.4)", dash="dot", width=1))
+    fig.add_shape(type="line", x0=30, x1=30, y0=-90, y1=90,
+        line=dict(color="rgba(0,255,0,0.4)", dash="dot", width=1))
+    fig.add_shape(type="line", x0=0, x1=100, y0=15, y1=15,
+        line=dict(color="rgba(0,255,0,0.25)", dash="dot", width=1))
+    fig.add_shape(type="line", x0=0, x1=100, y0=-10, y1=-10,
+        line=dict(color="rgba(255,0,0,0.25)", dash="dot", width=1))
     fig.update_layout(
         paper_bgcolor=PLOT_PAPER, plot_bgcolor=PLOT_BG,
         font=dict(family="Share Tech Mono", color=TEXT_COL, size=10),
