@@ -491,6 +491,13 @@ GREEN     = "#00FF00"
 RED       = "#FF0000"
 YELLOW    = "#FFFF00"
 CYAN      = "#00FFFF"
+# Alpha varyantları (string birleştirme yerine sabit değer)
+GREEN88   = "#00FF0088"
+GREEN66   = "#00FF0066"
+GREEN44   = "#00FF0044"
+RED88     = "#FF000088"
+RED66     = "#FF000066"
+RED44     = "#FF000044"
 
 def plot_layout(fig, height=600):
     fig.update_layout(
@@ -571,8 +578,8 @@ def make_chart(r):
     fig.add_trace(go.Scatter(x=close.index, y=rsi_s,
         line=dict(color=GREEN, width=1.5),
         name="RSI", showlegend=False), row=3, col=1)
-    fig.add_hline(y=70, line_dash="dot", line_color=RED+"88",    row=3, col=1)
-    fig.add_hline(y=30, line_dash="dot", line_color=GREEN+"88",  row=3, col=1)
+    fig.add_hline(y=70, line_dash="dot", line_color=RED88,   row=3, col=1)
+    fig.add_hline(y=30, line_dash="dot", line_color=GREEN88, row=3, col=1)
     fig.add_hrect(y0=30, y1=70, fillcolor="#00FF0006", line_width=0, row=3, col=1)
 
     # Stochastic
@@ -582,8 +589,8 @@ def make_chart(r):
     fig.add_trace(go.Scatter(x=close.index, y=sd_line,
         line=dict(color=YELLOW, width=1),
         name="STOCH D", showlegend=False), row=4, col=1)
-    fig.add_hline(y=80, line_dash="dot", line_color=RED+"66",   row=4, col=1)
-    fig.add_hline(y=20, line_dash="dot", line_color=GREEN+"66", row=4, col=1)
+    fig.add_hline(y=80, line_dash="dot", line_color=RED66,   row=4, col=1)
+    fig.add_hline(y=20, line_dash="dot", line_color=GREEN66, row=4, col=1)
 
     # MACD
     hist_colors = [GREEN if float(v) >= 0 else RED for v in hist_s]
@@ -677,10 +684,10 @@ def make_bubble(results):
         textfont=dict(size=8, color=GREEN, family="Share Tech Mono"),
         hovertemplate="<b>%{text}</b><br>RSI: %{x:.1f}<br>Skor: %{y:.1f}<extra></extra>"
     ))
-    fig.add_vline(x=70, line_dash="dot", line_color=RED+"66")
-    fig.add_vline(x=30, line_dash="dot", line_color=GREEN+"66")
-    fig.add_hline(y=15, line_dash="dot", line_color=GREEN+"44")
-    fig.add_hline(y=-10,line_dash="dot", line_color=RED+"44")
+    fig.add_vline(x=70, line_dash="dot", line_color=RED66)
+    fig.add_vline(x=30, line_dash="dot", line_color=GREEN66)
+    fig.add_hline(y=15, line_dash="dot", line_color=GREEN44)
+    fig.add_hline(y=-10,line_dash="dot", line_color=RED44)
     fig.update_layout(
         paper_bgcolor=PLOT_PAPER, plot_bgcolor=PLOT_BG,
         font=dict(family="Share Tech Mono", color=TEXT_COL, size=10),
