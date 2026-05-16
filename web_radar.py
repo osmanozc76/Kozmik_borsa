@@ -6,7 +6,7 @@ import numpy as np
 # Ekran Genişlik ve Tema Ayarları
 st.set_page_config(page_title="BIST QUANTUM AI v12", layout="wide")
 
-# Dev Puntolar ve Parlak Kontrast İçin CSS Siber Zırhı
+# Kurumsal Kontrast ve Profesyonel Görünüm İçin CSS Zırhı
 st.markdown("""
     <style>
     html, body, [data-testid="stAppViewContainer"] {
@@ -19,17 +19,21 @@ st.markdown("""
         font-weight: bold !important;
     }
     .stButton>button {
-        background-color: #FF0000 !important;
-        color: #FFFFFF !important;
-        font-size: 26px !important;
+        background-color: #111111 !important;
+        color: #00FF00 !important;
+        font-size: 22px !important;
         font-weight: bold !important;
-        border: 3px solid #00FF00 !important;
-        border-radius: 10px !important;
+        border: 2px solid #00FF00 !important;
+        border-radius: 5px !important;
         width: 100% !important;
-        height: 70px !important;
+        height: 60px !important;
+    }
+    .stButton>button:hover {
+        background-color: #00FF00 !important;
+        color: #000000 !important;
     }
     .stDataFrame, div[data-testid="stTable"] {
-        font-size: 24px !important;
+        font-size: 22px !important;
         background-color: #000000 !important;
         border: 2px solid #00FF00 !important;
     }
@@ -44,16 +48,16 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Başkomutan Komuta Merkezi Başlığı
-st.markdown("<h1 style='text-align: center; font-size: 45px;'>🪖 BAŞKOMUTAN: OSMAN ÖZCAN</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center; font-size: 35px; color: #00FFFF !important;'>🛸 BIST QUANTUM AI v12 PRO MAX WEB</h2>", unsafe_allow_html=True)
+# Kurumsal Başlıklar
+st.markdown("<h1 style='text-align: center; font-size: 38px;'>SİSTEM YÖNETİCİSİ: OSMAN ÖZCAN</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; font-size: 28px; color: #00FFFF !important;'>BIST QUANTUM ANALYZER - QUANT LABS v12</h2>", unsafe_allow_html=True)
 st.markdown("---")
 
-# İzlenecek Nizamî Hisse Listesi (.IS uzantılı)
+# İzlenecek Resmî Hisse Listesi
 HISSENET = ['THYAO.IS', 'ASELS.IS', 'EREGL.IS', 'TUPRS.IS', 'AKBNK.IS', 'YKBNK.IS', 'SAHOL.IS', 'SISE.IS', 'BIMAS.IS', 'KCHOL.IS']
 
-if st.button("🔴 BULUT RADARINI ATEŞLE"):
-    st.markdown("<h3 style='color: #FFFF00 !important;'>📡 SİBER TARAMA BAŞLADI, VERİLER HAFIZAYA ALINIYOR...</h3>", unsafe_allow_html=True)
+if st.button("SİSTEM ANALİZİNİ BAŞLAT"):
+    st.markdown("<h3 style='color: #FFFF00 !important;'>📡 MERKEZİ SUNUCU BAĞLANTISI AKTİF, VERİLER ANALİZ EDİLİYOR...</h3>", unsafe_allow_html=True)
     
     tarama_sonuclari = []
     
@@ -65,8 +69,6 @@ if st.button("🔴 BULUT RADARINI ATEŞLE"):
                 continue
                 
             kapanis = veri['Close'].values.flatten()
-            yuksek = veri['High'].values.flatten()
-            dusuk = veri['Low'].values.flatten()
             hacim = veri['Volume'].values.flatten()
             
             son_fiyat = float(kapanis[-1])
@@ -104,7 +106,7 @@ if st.button("🔴 BULUT RADARINI ATEŞLE"):
             son_hacim = hacim[-1]
             hacim_onay = "GÜÇLÜ" if son_hacim > ort_hacim else "ZAYIF"
             
-            # SEKİŞMEYİ ENGELLEYEN YAY KİLİDİ (Rastgelelik Sabitleyici)
+            # Rastgelelik Sabitleyici Kilit (Sikişmeyi Önleyen Ağ)
             np.random.seed(42)
             yapay_zeka_gurultusu = np.random.uniform(-0.02, 0.02)
             
@@ -120,32 +122,32 @@ if st.button("🔴 BULUT RADARINI ATEŞLE"):
             ai_skor = round(float(ai_skor + yapay_zeka_gurultusu), 2)
             ai_skor = max(1.0, min(5.0, ai_skor))
             
-            # 6 & 7. Son Karar ve Siber Yön Okları
+            # 6 & 7. Son Karar ve Kurumsal Sinyal Yönleri
             if ai_skor >= 4.0:
-                karar = "⚡ GÜÇLÜ AL"
-                ok = "🟢 ▲▲"
+                karar = "POZİTİF (KUVVETLİ)"
+                ok = "▲▲"
             elif ai_skor >= 3.3:
-                karar = "📈 AL"
-                ok = "🟢 ▲"
+                karar = "POZİTİF"
+                ok = "▲"
             elif ai_skor >= 2.8:
-                karar = "🔄 NÖTR"
-                ok = "🟡 ▬"
+                karar = "YATAY / NÖTR"
+                ok = "▬"
             elif ai_skor >= 2.0:
-                karar = "📉 SAT"
-                ok = "🔴 ▼"
+                karar = "NEGATİF"
+                ok = "▼"
             else:
-                karar = "🚨 GÜÇLÜ SAT"
-                ok = "🔴 ▼▼"
+                karar = "NEGATİF (KUVVETLİ)"
+                ok = "▼▼"
                 
             tarama_sonuclari.append({
-                "HİSSE": hisse.replace(".IS", ""),
-                "FİYAT (TL)": round(son_fiyat, 2),
-                "YÖN": ok,
-                "AI SKOR": ai_skor,
-                "KARAR REÇETESİ": karar,
-                "RSI": round(float(rsi), 1),
-                "MACD": "POZİTİF" if son_macd > son_sinyal else "NEGATİF",
-                "HACİM": hacim_onay
+                "HİSSE SENEDİ": hisse.replace(".IS", ""),
+                "CARİ FİYAT (TL)": round(son_fiyat, 2),
+                "SİNYAL YÖNÜ": ok,
+                "ALGORİTMA SKORU": ai_skor,
+                "ANALİZ REÇETESİ": karar,
+                "RSI (14)": round(float(rsi), 1),
+                "MACD DURUMU": "POZİTİF" if son_macd > son_sinyal else "NEGATİF",
+                "HACİM PERFORMANSI": hacim_onay
             })
             
         except Exception as e:
@@ -156,44 +158,47 @@ if st.button("🔴 BULUT RADARINI ATEŞLE"):
         st.write(df)
         
         st.session_state['radar_verisi'] = tarama_sonuclari
-        st.success("🎯 7'Lİ YAPAY ZEKÂ ÖĞRENME MATRİSİ RAPORU TAMAMLADI!")
+        st.success("🎯 MATRİS ANALİZİ BAŞARIYLA TAMAMLANDI.")
     else:
-        st.error("❌ Veri çekilemedi, bağlantıyı kontrol et ağabey.")
+        st.error("❌ Veri çekme işlemi başarısız. Bağlantınızı kontrol ediniz.")
 
 st.markdown("---")
 
-# --- 🛰️ YAZILI YAPAY ZEKÂ YORUMLAMA MERKEZİ ---
-st.markdown("<h2 style='font-size: 30px; color: #FFFF00 !important;'>📝 YAZILI YAPAY ZEKÂ STRATEJİ VE YORUM EKRANI</h2>", unsafe_allow_html=True)
+# --- KURUMSAL YAPAY ZEKÂ ANALİZ RAPORLAMA MERKEZİ ---
+st.markdown("<h2 style='font-size: 26px; color: #FFFF00 !important;'>📊 YAPAY ZEKÂ TEKNİK STRATEJİ RAPORU</h2>", unsafe_allow_html=True)
 
 if 'radar_verisi' in st.session_state:
-    hisse_listesi = [h["HİSSE"] for h in st.session_state['radar_verisi']]
-    secilen_hisse = st.selectbox("Yorumunu Görmek İstediğin Hisseyi Seç Ağabey:", hisse_listesi)
+    hisse_listesi = [h["HİSSE SENEDİ"] for h in st.session_state['radar_verisi']]
+    secilen_hisse = st.selectbox("Detaylı Analiz Raporu İçin Hisse Seçiniz:", hisse_listesi)
     
-    hisse_detay = next((item for item in st.session_state['radar_verisi'] if item["HİSSE"] == secilen_hisse), None)
+    hisse_detay = next((item for item in st.session_state['radar_verisi'] if item["HİSSE SENEDİ"] == secilen_hisse), None)
     
     if hisse_detay:
-        st.markdown(f"### 📊 {secilen_hisse} HİSSESİ YAPAY ZEKÂ DERİN ANALİZİ")
+        st.markdown(f"### 📈 {secilen_hisse} Hisse Senedi Kantitatif Değerlendirmesi")
         
-        yorum_metni = f"**{secilen_hisse}** kodlu zırhlı mühimmatın siber verileri incelendi. "
-        yorum_metni += f"Hisse şu an **{hisse_detay['FİYAT (TL)']} TL** seviyesinde kilitli duruyor. "
+        yorum_metni = f"**{secilen_hisse}** enstrümanına ait teknik parametreler sistem tarafından taranmıştır. "
+        yorum_metni += f"İlgili varlık anlık olarak **{hisse_detay['CARİ FİYAT (TL)']} TL** fiyattan işlem görmektedir. "
         
-        if hisse_detay['RSI'] > 70:
-            yorum_metni += f"RSI indikatörü **{hisse_detay['RSI']}** ile aşırı alım bölgesinde tepe yapmış durumda, kar realizasyonu gelebilir. "
-        elif hisse_detay['RSI'] < 40:
-            yorum_metni += f"RSI indikatörü **{hisse_detay['RSI']}** ile dip bölgelerde sürünüyor, bu seviyelerden nizamî bir tepki alımı gelebilir. "
+        # RSI Kurumsal Yorumu
+        if hisse_detay['RSI (14)'] > 70:
+            yorum_metni += f"RSI indikatörü **{hisse_detay['RSI (14)']}** değeri ile aşırı alım (overbought) bölgesindedir. Kısa vadeli düzeltme eğilimi riski mevcuttur. "
+        elif hisse_detay['RSI (14)'] < 40:
+            yorum_metni += f"RSI indikatörü **{hisse_detay['RSI (14)']}** değeri ile aşırı satım (oversold) bölgesine yakınsamıştır. Bu seviyelerden teknik bir tepki alımı gözlenebilir. "
         else:
-            yorum_metni += f"RSI indikatörü **{hisse_detay['RSI']}** ile dengeli ve güvenli bölgede yoluna devam ediyor. "
+            yorum_metni += f"RSI indikatörü **{hisse_detay['RSI (14)']}** değeri ile dengeli konsolidasyon bölgesinde konumlanmaktadır. "
             
-        if hisse_detay['MACD'] == "POZİTİF" and hisse_detay['HACİM'] == "GÜÇLÜ":
-            yorum_metni += "MACD siber sinyali boğa trendini destekliyor ve arkasındaki hacim desteği oldukça GÜÇLÜ, yani yükseliş sahte değil. "
-        elif hisse_detay['MACD'] == "POZİTİF" and hisse_detay['HACİM'] == "ZAYIF":
-            yorum_metni += "MACD yönü yukarı gösteriyor fakat hacim bu yükselişi tam olarak onaylamıyor, siber bir boğa tuzağına karşı temkinli olunmalı. "
+        # MACD ve Hacim Kurumsal Yorumu
+        if hisse_detay['MACD DURUMU'] == "POZİTİF" and hisse_detay['HACİM PERFORMANSI'] == "GÜÇLÜ":
+            yorum_metni += "MACD göstergesi yukarı yönlü trend yapısını korumakta ve ortalama işlem hacminin artışıyla desteklenmektedir. "
+        elif hisse_detay['MACD DURUMU'] == "POZİTİF" and hisse_detay['HACİM PERFORMANSI'] == "ZAYIF":
+            yorum_metni += "MACD göstergesi pozitif bölgede olmakla birlikte, işlem hacminin zayıf seyretmesi yükseliş eğiliminin momentum kaybettiğine işaret edebilir. "
         else:
-            yorum_metni += "MACD sinyali şu an negatif bölgede nöbet tutuyor, trendin dönmesi için hacimli bir giriş beklenmeli. "
+            yorum_metni += "MACD göstergesi negatif bölgede sinyal üretmekte olup, net bir dönüş yapısı için işlem hacminde artış izlenmelidir. "
             
-        yorum_metni += f"\n\n**🎯 KOZMİK STRATEJİ NOTU:** 7'li yapay zekâ matrisinin bu hisseye verdiği nihai kararlılık skoru **5 üzerinden {hisse_detay['AI SKOR']}** puan. "
-        yorum_metni += f"Sistem bu verilere dayanarak pozisyonunu **'{hisse_detay['KARAR REÇETESİ']}'** yönünde güncelledi ağabey."
+        # Nihai Algoritma Skoru
+        yorum_metni += f"\n\n**🎯 STRATEJİK DEĞERLENDİRME NOTU:** Yapay zekâ optimizasyon motorunun bu enstrümana atadığı nihai kantitatif skor **5.00 üzerinden {hisse_detay['ALGORİTMA SKORU']}** puandır. "
+        yorum_metni += f"Sistem, mevcut matematiksel veriler doğrultusunda pozisyonel modellemeyi **'{hisse_detay['ANALİZ REÇETESİ']}'** olarak güncellemiştir."
         
         st.info(yorum_metni)
 else:
-    st.markdown("<p style='color: #FF0000 !important; font-size: 20px;'>⚠️ Önce yukarıdaki 'BULUT RADARINI ATEŞLE' butonuna basarak radarı çalıştırmalısın ağabey, ardından yazılı yorumlar burada açılacak!</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #FF0000 !important; font-size: 18px;'>⚠️ Analiz raporlarının üretilmesi için lütfen yukarıda bulunan 'SİSTEM ANALİZİNİ BAŞLAT' butonunu tetikleyiniz.</p>", unsafe_allow_html=True)
