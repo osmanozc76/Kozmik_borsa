@@ -3,3 +3,9 @@ yfinance
 plotly
 pandas
 numpy
+scikit-learn
+pandas-datareader
+matriks
+python-telegram-bot
+ta
+ccxt
