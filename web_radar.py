@@ -38,19 +38,6 @@ WATCHLIST = {
     "TCELL.IS": "Turkcell",
     "SAHOL.IS": "Sabancı Holding",
     "KCHOL.IS": "Koç Holding",
-    "DOHOL.IS": "Doğan Holding",
-    "VESTL.IS": "Vestel",
-    "ASELS.IS": "Aselsan",
-    "FROTO.IS": "Ford Otosan",
-    "TOASO.IS": "Tofaş",
-    "EREGL.IS": "Erdemir",
-    "KRDMD.IS": "Kardemir",
-    "BIMAS.IS": "BIM",
-    "ULKER.IS": "Ülker",
-    "HEKTS.IS": "Hektaş",
-    "SISE.IS": "Şişecam",
-    "PGSUS.IS": "Pegasus",
-    "TAVHL.IS": "TAV Havalimanları",
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -79,6 +66,13 @@ def calc_bollinger(s, window=20, nstd=2):
     mid = s.rolling(window).mean()
     std = s.rolling(window).std()
     return mid + nstd * std, mid, mid - nstd * std
+
+def calc_stochastic(high, low, close, k=14, d=3):
+    lowest = low.rolling(k).min()
+    highest = high.rolling(k).max()
+    stoch_k = 100 * (close - lowest) / (highest - lowest + 1e-10)
+    stoch_d = stoch_k.rolling(d).mean()
+    return stoch_k, stoch_d
 
 # ─────────────────────────────────────────────────────────────
 # VERİ ÇEKME FONKSİYONU
@@ -121,10 +115,9 @@ def analyze(df, sym):
     bb_pos = (price - bb_dn.iloc[-1]) / (bb_up.iloc[-1] - bb_dn.iloc[-1] + 1e-10) * 100
 
     # Stochastic
-    lowest = low.rolling(14).min()
-    highest = high.rolling(14).max()
-    stoch_k = 100 * (close.iloc[-1] - lowest.iloc[-1]) / (highest.iloc[-1] - lowest.iloc[-1] + 1e-10)
-    stoch_d = stoch_k.rolling(3).mean().iloc[-1]
+    stoch_k_series, stoch_d_series = calc_stochastic(high, low, close)
+    stoch_k = stoch_k_series.iloc[-1]
+    stoch_d = stoch_d_series.iloc[-1]
 
     # Sinyal hesapla (Kompozit Skor)
     score = 0
@@ -175,7 +168,7 @@ st.sidebar.header("⚙️ Ayarlar")
 selected_syms = st.sidebar.multiselect(
     "📌 İzlenecek Hisseler",
     options=list(WATCHLIST.keys()),
-    default=["AKBNK.IS", "GARAN.IS", "YKBNK.IS", "TUPRS.IS", "THYAO.IS"],
+    default=["AKBNK.IS", "GARAN.IS", "YKBNK.IS"],
     format_func=lambda x: f"{x.replace('.IS', '')} ({WATCHLIST[x]})"
 )
 period = st.sidebar.selectbox("📅 Zaman Aralığı", ["1d", "5d", "1mo", "3mo", "1y"])
