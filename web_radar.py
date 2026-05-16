@@ -984,7 +984,7 @@ with tab2:
     <div style='font-size:11px; color:#006600; letter-spacing:2px; margin-bottom:8px;'>
         RSI × KOMPOZİT SKOR HARİTASI
     </div>""", unsafe_allow_html=True)
-    st.plotly_chart(make_bubble(results), use_container_width=True)
+    st.plotly_chart(make_bubble(results), use_container_width=True, key="bubble")
 
     st.divider()
 
@@ -1010,7 +1010,7 @@ with tab2:
 
         df_g = fetch_single(sel_sym, g_period)
         if df_g is not None and not df_g.empty:
-            st.plotly_chart(make_chart(sel), use_container_width=True)
+            st.plotly_chart(make_chart(sel), use_container_width=True, key="chart_sel")
         else:
             st.error("Grafik verisi alınamadı.")
 
@@ -1019,7 +1019,7 @@ with tab2:
             st.markdown("""<div style='font-size:10px;color:#006600;
                 letter-spacing:2px;margin-bottom:4px;'>SKOR RADAR</div>""",
                 unsafe_allow_html=True)
-            st.plotly_chart(make_radar(sel["scores"]), use_container_width=True)
+            st.plotly_chart(make_radar(sel["scores"]), use_container_width=True, key="radar_sel")
         with rcol2:
             st.markdown("""<div style='font-size:10px;color:#006600;
                 letter-spacing:2px;margin-bottom:8px;'>RİSK / ÖDÜL</div>""",
@@ -1063,7 +1063,7 @@ with tab3:
         st.markdown("""<div style='font-size:10px;color:#006600;
             letter-spacing:2px;margin-bottom:4px;'>SEKTÖR SKOR ORTALAMALARI</div>""",
             unsafe_allow_html=True)
-        st.plotly_chart(make_sector_bar(results), use_container_width=True)
+        st.plotly_chart(make_sector_bar(results), use_container_width=True, key="sector_bar")
     with sc2:
         st.markdown("""<div style='font-size:10px;color:#006600;
             letter-spacing:2px;margin-bottom:4px;'>SİNYAL DAĞILIMI</div>""",
@@ -1090,7 +1090,7 @@ with tab3:
             height=260, margin=dict(l=10,r=10,t=10,b=10),
             legend=dict(font=dict(size=9, color=GREEN))
         )
-        st.plotly_chart(pie, use_container_width=True)
+        st.plotly_chart(pie, use_container_width=True, key="pie_chart")
 
     sector_rows = {}
     for r in results:
@@ -1219,7 +1219,7 @@ with tab4:
             </div>""", unsafe_allow_html=True)
 
             # Skor radar
-            st.plotly_chart(make_radar(w_res["scores"]), use_container_width=True)
+            st.plotly_chart(make_radar(w_res["scores"]), use_container_width=True, key="radar_detail")
 
             # Risk/ödül + pivot
             p1, p2 = st.columns(2)
