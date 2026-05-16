@@ -1,11 +1,12 @@
-streamlit
-yfinance
-plotly
-pandas
-numpy
-scikit-learn
-pandas-datareader
-matriks
-python-telegram-bot
-ta
-ccxt
+# BIST QUANTUM PRO MAX - Bağımlılıklar
+streamlit>=1.20.0
+yfinance>=0.2.0
+plotly>=5.0.0
+pandas>=1.3.0
+numpy>=1.21.0
+scikit-learn>=1.0.0
+pandas-datareader>=0.10.0
+# matriks>=1.0.0  # Alternatif: pandas-datareader
+python-telegram-bot>=20.0.0
+TA-Lib>=0.4.24  # 'ta' yerine 'TA-Lib' kullan
+ccxt>=2.0.0
